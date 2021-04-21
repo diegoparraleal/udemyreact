@@ -2,36 +2,38 @@ import styled  from 'styled-components'
 import logo from '../../images/logo.png'
 
 const StyledAppHeader = styled.div`
-    background-color: darkgreen;
     width: 100%;
     height: 64px;
-    
+    text-align: left;
+    display: flex;
+
     .crt-logo{
         height: 48px;
         margin-top: 8px;
     }
 
-    ul li {
+    ul {
         display: inline-block;
-    }
-    ul br {
-        display: none;
+        flex-grow: 1;
+        text-align: right;
+        padding-right: 160px;
+
+        li {
+            font-size: 20px;
+            color: #c6d9b4;
+            display: inline-block;            
+            margin-left: 32px;
+            line-height: 30px;
+        }
     }
 `
 
 function AppHeader({color, showLogo, onLogoClick}) {
 
-    const menuItems = ["Restaurants", "Users", "Secret", "Otro menu"];
+    const menuItems = ["Restaurants", "Users"];
     const internalClick = () => {
         console.log("SE HIZO CLICK INTERNAMENTE EN APP HEADER")
         onLogoClick()
-    }
-
-    const renderMenuItem = (menuItem) => {
-        return  (<>
-                    <li key={menuItem}>{menuItem}</li>
-                    <br/>
-                </>)
     }
 
     return (
@@ -40,13 +42,9 @@ function AppHeader({color, showLogo, onLogoClick}) {
                 <img className='crt-logo' src={logo} alt="logo" onClick={internalClick}></img>
             }
             <ul>
-                { menuItems.map(menuItem => renderMenuItem(menuItem))}
                 { menuItems.map(menuItem => (
-                    <>
-                        <li key={menuItem}>{menuItem}</li>
-                        <br/>
-                    </>)
-                )}
+                    <li key={menuItem}>{menuItem}</li>
+                ))}
             </ul>
         </StyledAppHeader>
     );

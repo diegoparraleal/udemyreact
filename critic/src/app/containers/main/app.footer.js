@@ -1,14 +1,17 @@
 import styled from 'styled-components'
 
 const StyledAppFooter = styled.div`
-    background-color: darkgreen;
     width: 100%;
     height: 64px;
-    color: white;
+
+
     
     label {
-        padding-top: 16px;
+        padding-top: 24px;
         text-align: center;
+        color: #c6d9b4;
+        font-size: 12px;
+        display: inline-block;
     }
 `
 
