@@ -48,23 +48,30 @@ const StyledAppMain = styled.div`
 
 function AppMain(){
     const [color, setColor] = useState("#003433");
+    const [user, setUser] = useState({});
     const logoClicked = () => console.log("SE HIZO CLICK EN EL LOGO");
     const changeColor = (newColor) => {
         setColor(newColor);
     }
+    const changeUser = () => {
+        setUser({
+            name: "Diego",
+            email: "diego@udemy.com"
+        })
+    }
 
     return (
     <StyledAppMain>
-        <AppHeader color={color} onLogoClick={logoClicked} showLogo={true} />
+        <AppHeader color={color} user={user} onLogoClick={logoClicked} showLogo={true} />
         <div className="crt-content">
             <label>Welcome to critic, the leading world site for restaurant reviews!</label>
-            <ul>
+            {/* <ul>
                 <li><button onClick={ () => changeColor('blue')} >Blue</button></li>
                 <li><button onClick={ () => changeColor('green')} >Green</button></li>
                 <li><button onClick={ () => changeColor('red')} >Red</button></li>
-            </ul>
+            </ul> */}
             <img src={homeImage} alt="homeImage" />
-            <button>LOGIN</button>
+            <button onClick={changeUser}>LOGIN</button>
         </div>
         <AppFooter color={color}/>
     </StyledAppMain>)

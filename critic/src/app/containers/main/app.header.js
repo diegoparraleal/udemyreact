@@ -26,9 +26,23 @@ const StyledAppHeader = styled.div`
             line-height: 30px;
         }
     }
+
+    .crt-user{
+        width: 200px;
+        color: #c6d9b4;
+
+        h4 {
+            margin: 0;
+            margin-top: 16px;
+        }
+        h5 {
+            margin: 0;
+        }
+
+    }
 `
 
-function AppHeader({color, showLogo, onLogoClick}) {
+function AppHeader({color, user, showLogo, onLogoClick}) {
 
     const menuItems = ["Restaurants", "Users"];
     const internalClick = () => {
@@ -46,6 +60,12 @@ function AppHeader({color, showLogo, onLogoClick}) {
                     <li key={menuItem}>{menuItem}</li>
                 ))}
             </ul>
+            { user && 
+                <div className="crt-user">
+                    <h4>{user.name}</h4>
+                    <h5>{user.email}</h5>
+                </div>
+            }
         </StyledAppHeader>
     );
 }
