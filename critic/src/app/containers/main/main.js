@@ -2,6 +2,7 @@ import AppFooter from "./app.footer";
 import AppHeader from "./app.header";
 import styled from 'styled-components'
 import homeImage from '../../images/home-image.jpg'
+import { useState } from "react";
 
 const StyledAppMain = styled.div`
     width: 1024px;
@@ -24,6 +25,13 @@ const StyledAppMain = styled.div`
             display: block;
         }
 
+        ul {
+           list-style: none;
+           li {
+               display: inline;
+           } 
+        }
+
         img {
             width: 100%;
         }
@@ -39,18 +47,26 @@ const StyledAppMain = styled.div`
 `
 
 function AppMain(){
-
+    const [color, setColor] = useState("#003433");
     const logoClicked = () => console.log("SE HIZO CLICK EN EL LOGO");
+    const changeColor = (newColor) => {
+        setColor(newColor);
+    }
 
     return (
     <StyledAppMain>
-        <AppHeader color="#003433" onLogoClick={logoClicked} showLogo={true} />
+        <AppHeader color={color} onLogoClick={logoClicked} showLogo={true} />
         <div className="crt-content">
             <label>Welcome to critic, the leading world site for restaurant reviews!</label>
+            <ul>
+                <li><button onClick={ () => changeColor('blue')} >Blue</button></li>
+                <li><button onClick={ () => changeColor('green')} >Green</button></li>
+                <li><button onClick={ () => changeColor('red')} >Red</button></li>
+            </ul>
             <img src={homeImage} alt="homeImage" />
             <button>LOGIN</button>
         </div>
-        <AppFooter color="#003433"/>
+        <AppFooter color={color}/>
     </StyledAppMain>)
 }
 
