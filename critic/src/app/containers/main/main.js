@@ -2,7 +2,9 @@ import AppFooter from "./app.footer";
 import AppHeader from "./app.header";
 import styled from 'styled-components'
 import homeImage from '../../images/home-image.jpg'
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from 'axios';
+import { apiService } from "../../services/apiService";
 
 const StyledAppMain = styled.div`
     width: 1024px;
@@ -49,16 +51,25 @@ const StyledAppMain = styled.div`
 function AppMain(){
     const [color, setColor] = useState("#003433");
     const [user, setUser] = useState({});
+    const [userEmail, setUserEmail] = useState("");
+    const [count, setCount] = useState(0);
+
     const logoClicked = () => console.log("SE HIZO CLICK EN EL LOGO");
     const changeColor = (newColor) => {
         setColor(newColor);
     }
     const changeUser = () => {
-        setUser({
-            name: "Diego",
-            email: "diego@udemy.com"
-        })
+        setCount(count + 1)
+        if (count % 2 === 0)
+            setUserEmail("rachel.green@fakegmail.com");
+        else
+            setUserEmail("ross.geller@fakegmail.com");
     }
+
+    useEffect( () => {
+        if (userEmail === "") return;
+        apiService.getUserByEmail(userEmail).then( appUser => setUser(appUser) )
+    }, [userEmail])
 
     return (
     <StyledAppMain>

@@ -1,0 +1,1 @@
+export const SERVER_URL = "https://[KATACODA-SERVER]/api/1.0.0";
