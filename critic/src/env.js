@@ -1,1 +1,1 @@
-export const SERVER_URL = "https://[KATACODA-SERVER]/api/1.0.0";
+export const SERVER_URL = "https://2886795276-5000-ollie02.environments.katacoda.com/api/1.0.0";

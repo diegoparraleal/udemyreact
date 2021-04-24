@@ -28,15 +28,31 @@ const StyledAppHeader = styled.div`
     }
 
     .crt-user{
-        width: 200px;
+        width: 240px;
         color: #c6d9b4;
+        position: relative;
 
         h4 {
             margin: 0;
-            margin-top: 16px;
+            top: 16px;
+            display: inline-block;
+            position: absolute;
+            font-weight: 600;
         }
         h5 {
             margin: 0;
+            top: 36px;
+            display: inline-block;
+            position: absolute;
+            font-weight: 100;
+        }
+        img {
+            margin: 0 8px;
+            top: 8px;
+            position: absolute;
+            border-radius: 24px;
+            height: 48px;
+            right: 0;
         }
 
     }
@@ -64,6 +80,7 @@ function AppHeader({color, user, showLogo, onLogoClick}) {
                 <div className="crt-user">
                     <h4>{user.name}</h4>
                     <h5>{user.email}</h5>
+                    <img src={user.image} alt="user" />
                 </div>
             }
         </StyledAppHeader>
