@@ -1,5 +1,10 @@
+import { AppBar, Avatar, IconButton, Toolbar, Typography } from '@material-ui/core';
+import React from 'react';
 import styled  from 'styled-components'
 import logo from '../../images/logo.png'
+import RestaurantIcon from '@material-ui/icons/Restaurant';
+import PeopleIcon from '@material-ui/icons/People';
+import { CRITIC_PALETTE } from 'app/themes/theme';
 
 const StyledAppHeader = styled.div`
     width: 100%;
@@ -16,73 +21,74 @@ const StyledAppHeader = styled.div`
         display: inline-block;
         flex-grow: 1;
         text-align: right;
-        padding-right: 160px;
 
         li {
             font-size: 20px;
-            color: #c6d9b4;
             display: inline-block;            
             margin-left: 32px;
             line-height: 30px;
+
+            button {
+                font-size: 16px;
+                color: ${CRITIC_PALETTE.light};
+            }
         }
     }
 
     .crt-user{
         width: 240px;
-        color: #c6d9b4;
         position: relative;
+        text-align: right;
+        padding-right: 8px;
 
         h4 {
-            margin: 0;
-            top: 16px;
-            display: inline-block;
-            position: absolute;
-            font-weight: 600;
+            font-size: 14px;
         }
         h5 {
-            margin: 0;
-            top: 36px;
-            display: inline-block;
-            position: absolute;
-            font-weight: 100;
-        }
-        img {
-            margin: 0 8px;
-            top: 8px;
-            position: absolute;
-            border-radius: 24px;
-            height: 48px;
-            right: 0;
+            font-size: 12px;
         }
 
     }
 `
 
-function AppHeader({color, user, showLogo, onLogoClick}) {
+function AppHeader({ user, showLogo, onLogoClick}) {
 
-    const menuItems = ["Restaurants", "Users"];
     const internalClick = () => {
         console.log("SE HIZO CLICK INTERNAMENTE EN APP HEADER")
         onLogoClick()
     }
 
     return (
-        <StyledAppHeader style={{backgroundColor: color}}>
-            { showLogo && 
-                <img className='crt-logo' src={logo} alt="logo" onClick={internalClick}></img>
-            }
-            <ul>
-                { menuItems.map(menuItem => (
-                    <li key={menuItem}>{menuItem}</li>
-                ))}
-            </ul>
-            { user && 
-                <div className="crt-user">
-                    <h4>{user.name}</h4>
-                    <h5>{user.email}</h5>
-                    <img src={user.image} alt="user" />
-                </div>
-            }
+        <StyledAppHeader>
+            <AppBar position="relative">
+                <Toolbar>
+                    { showLogo && 
+                        <img className='crt-logo' src={logo} alt="logo" onClick={internalClick}></img>
+                    }
+                    <ul>
+                      <li>
+                          <IconButton>
+                              <RestaurantIcon/>
+                              <span>Restaurants</span>
+                          </IconButton>
+                          <IconButton>
+                              <PeopleIcon />
+                              <span>Users</span>
+                          </IconButton>
+                      </li>
+                    </ul>
+                    { user &&
+                        <> 
+                            <div className="crt-user">
+                                <Typography variant="h4">{user.name}</Typography>
+                                <Typography variant="h5">{user.email}</Typography>
+                            </div>
+                            <Avatar src={user.image} alt="user"></Avatar>
+                        </>
+                    }
+                </Toolbar>
+            </AppBar>
+            
         </StyledAppHeader>
     );
 }

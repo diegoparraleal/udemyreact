@@ -3,8 +3,9 @@ import AppHeader from "./app.header";
 import styled from 'styled-components'
 import homeImage from '../../images/home-image.jpg'
 import { useEffect, useState } from "react";
-import axios from 'axios';
 import { apiService } from "../../services/apiService";
+import { Button, Typography } from "@material-ui/core";
+import React from "react";
 
 const StyledAppMain = styled.div`
     width: 1024px;
@@ -17,8 +18,7 @@ const StyledAppMain = styled.div`
     .crt-content {
         flex-grow: 1;
 
-        label {
-            color: #003433;
+        h3 {
             font-size: 24px;
             text-align: center;
             padding: 8px 0px;
@@ -41,7 +41,6 @@ const StyledAppMain = styled.div`
         button{
             margin: 32px 64px;
             padding: 8px 16px;
-            background-color: #003433;
             color: white;
         }
     }
@@ -49,15 +48,12 @@ const StyledAppMain = styled.div`
 `
 
 function AppMain(){
-    const [color, setColor] = useState("#003433");
     const [user, setUser] = useState({});
     const [userEmail, setUserEmail] = useState("");
     const [count, setCount] = useState(0);
 
     const logoClicked = () => console.log("SE HIZO CLICK EN EL LOGO");
-    const changeColor = (newColor) => {
-        setColor(newColor);
-    }
+    
     const changeUser = () => {
         setCount(count + 1)
         if (count % 2 === 0)
@@ -73,18 +69,13 @@ function AppMain(){
 
     return (
     <StyledAppMain>
-        <AppHeader color={color} user={user} onLogoClick={logoClicked} showLogo={true} />
+        <AppHeader  user={user} onLogoClick={logoClicked} showLogo={true} />
         <div className="crt-content">
-            <label>Welcome to critic, the leading world site for restaurant reviews!</label>
-            {/* <ul>
-                <li><button onClick={ () => changeColor('blue')} >Blue</button></li>
-                <li><button onClick={ () => changeColor('green')} >Green</button></li>
-                <li><button onClick={ () => changeColor('red')} >Red</button></li>
-            </ul> */}
+            <Typography variant="h3">Welcome to critic, the leading world site for restaurant reviews!</Typography>
             <img src={homeImage} alt="homeImage" />
-            <button onClick={changeUser}>LOGIN</button>
+            <Button variant="contained" color="primary" onClick={changeUser}>LOGIN</Button>
         </div>
-        <AppFooter color={color}/>
+        <AppFooter />
     </StyledAppMain>)
 }
 

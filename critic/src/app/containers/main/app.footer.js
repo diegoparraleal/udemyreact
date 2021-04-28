@@ -1,3 +1,5 @@
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import React from 'react';
 import styled from 'styled-components'
 
 const StyledAppFooter = styled.div`
@@ -6,19 +8,22 @@ const StyledAppFooter = styled.div`
 
 
     
-    label {
-        padding-top: 24px;
+    h6 {
         text-align: center;
-        color: #c6d9b4;
         font-size: 12px;
         display: inline-block;
+        width: 100%;
     }
 `
 
-function AppFooter({color}) {
+function AppFooter() {
     return (
-        <StyledAppFooter style={{backgroundColor: color}}>
-            <label>Copyright diego.parra.leal@gmail.com - 2021</label>
+        <StyledAppFooter>
+            <AppBar position="relative">
+                <Toolbar>
+                    <Typography variant="h6">Copyright diego.parra.leal@gmail.com - 2021</Typography>
+                </Toolbar>
+            </AppBar>
         </StyledAppFooter>
     );
 }
