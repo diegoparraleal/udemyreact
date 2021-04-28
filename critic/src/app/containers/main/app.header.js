@@ -5,6 +5,7 @@ import logo from '../../images/logo.png'
 import RestaurantIcon from '@material-ui/icons/Restaurant';
 import PeopleIcon from '@material-ui/icons/People';
 import { CRITIC_PALETTE } from 'app/themes/theme';
+import AppUser from './app.user';
 
 const StyledAppHeader = styled.div`
     width: 100%;
@@ -51,7 +52,7 @@ const StyledAppHeader = styled.div`
     }
 `
 
-function AppHeader({ user, showLogo, onLogoClick}) {
+function AppHeader({ user, showLogo, onLogoClick, onLogoff}) {
 
     const internalClick = () => {
         console.log("SE HIZO CLICK INTERNAMENTE EN APP HEADER")
@@ -83,7 +84,7 @@ function AppHeader({ user, showLogo, onLogoClick}) {
                                 <Typography variant="h4">{user.name}</Typography>
                                 <Typography variant="h5">{user.email}</Typography>
                             </div>
-                            <Avatar src={user.image} alt="user"></Avatar>
+                            <AppUser user={user} onLogoff={onLogoff} />
                         </>
                     }
                 </Toolbar>
