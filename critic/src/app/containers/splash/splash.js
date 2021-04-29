@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import homeImage from '../../images/home-image.jpg'
 import { useGoogleLogin } from "react-google-login";
 import { useHistory } from 'react-router';
+import { apiService } from 'app/services/apiService';
 
 const StyledSplashContainer = styled.div`
   
@@ -16,7 +17,7 @@ function SplashContainer({onUserChanged}) {
     const onSuccess = (res) => {
         console.log(res);
         onUserChanged(res.profileObj)
-        history.push("/register")
+        checkIfUserExists(res.profileObj.email)
     }
 
     const onFailure = (res) => {
@@ -28,6 +29,12 @@ function SplashContainer({onUserChanged}) {
         clientId: GOOGLE_CLIENT_ID,
         onFailure
     })
+
+    const checkIfUserExists = (email) => {
+        apiService.getAppUserByEmail(email)
+                  .then(() => history.push("/restaurants"))
+                  .catch(() => history.push("/register"))
+    }
 
     return (
         <StyledSplashContainer>

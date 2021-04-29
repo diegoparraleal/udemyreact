@@ -7,6 +7,7 @@ import { GOOGLE_CLIENT_ID } from "env";
 import { Route, Switch, useHistory } from "react-router-dom";
 import RegisterContainer from "../register/register";
 import SplashContainer from "../splash/splash";
+import RestaurantsContainer from "../restaurants/restaurants";
 
 const StyledAppMain = styled.div`
     width: 1024px;
@@ -76,8 +77,11 @@ function AppMain(){
         <AppHeader  user={user} onLogoClick={logoClicked} showLogo={true} onLogoff={signOut} />
         <div className="crt-content">
             <Switch>
+                <Route path="/restaurants">
+                    <RestaurantsContainer />
+                </Route>
                 <Route path="/register">
-                    <RegisterContainer />
+                    <RegisterContainer user={user} />
                 </Route>
                 <Route path="/">
                     <SplashContainer onUserChanged={setUser} />        
