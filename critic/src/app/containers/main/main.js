@@ -1,13 +1,12 @@
 import AppFooter from "./app.footer";
 import AppHeader from "./app.header";
 import styled from 'styled-components'
-import homeImage from '../../images/home-image.jpg'
-import { useEffect, useState } from "react";
-import { apiService } from "../../services/apiService";
-import { Button, Typography } from "@material-ui/core";
-import React from "react";
-import { useGoogleLogin, useGoogleLogout } from "react-google-login";
+import React, { useState } from "react";
+import { useGoogleLogout } from "react-google-login";
 import { GOOGLE_CLIENT_ID } from "env";
+import { Route, Switch, useHistory } from "react-router-dom";
+import RegisterContainer from "../register/register";
+import SplashContainer from "../splash/splash";
 
 const StyledAppMain = styled.div`
     width: 1024px;
@@ -51,26 +50,17 @@ const StyledAppMain = styled.div`
 
 function AppMain(){
     const [user, setUser] = useState({});
-
-    const onSuccess = (res) => {
-        console.log(res);
-        setUser(res.profileObj)
-    }
+    let history = useHistory();
 
     const onLogoutSuccess = (res) => {
         console.log(res);
         setUser({})
+        history.push("/")
     }
 
     const onFailure = (res) => {
         console.log(res);
     }
-
-    const { signIn } = useGoogleLogin({
-        onSuccess,
-        clientId: GOOGLE_CLIENT_ID,
-        onFailure
-    })
 
     const { signOut } = useGoogleLogout({
         onFailure,
@@ -85,9 +75,14 @@ function AppMain(){
     <StyledAppMain>
         <AppHeader  user={user} onLogoClick={logoClicked} showLogo={true} onLogoff={signOut} />
         <div className="crt-content">
-            <Typography variant="h3">Welcome to critic, the leading world site for restaurant reviews!</Typography>
-            <img src={homeImage} alt="homeImage" />
-            <Button variant="contained" color="primary" onClick={signIn}>LOGIN</Button>
+            <Switch>
+                <Route path="/register">
+                    <RegisterContainer />
+                </Route>
+                <Route path="/">
+                    <SplashContainer onUserChanged={setUser} />        
+                </Route>
+            </Switch>
         </div>
         <AppFooter />
     </StyledAppMain>)

@@ -3,12 +3,16 @@ import { GlobalStyles } from "globalStyles";
 import React from "react";
 import AppMain from "./containers/main/main";
 import { CRITIC_THEME } from "./themes/theme";
+import {BrowserRouter as Router} from "react-router-dom";
+
 
 function App() {
   return (
     <ThemeProvider theme={CRITIC_THEME}>
-      <AppMain/>
-      <GlobalStyles/>
+      <Router>
+        <AppMain/>
+        <GlobalStyles/>
+      </Router>
     </ThemeProvider>
   );
 }
