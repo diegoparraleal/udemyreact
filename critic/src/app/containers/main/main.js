@@ -1,10 +1,8 @@
 import AppFooter from "./app.footer";
 import AppHeader from "./app.header";
 import styled from 'styled-components'
-import React, { useState } from "react";
-import { useGoogleLogout } from "react-google-login";
-import { GOOGLE_CLIENT_ID } from "env";
-import { Route, Switch, useHistory } from "react-router-dom";
+import React from "react";
+import { Route, Switch } from "react-router-dom";
 import RegisterContainer from "../register/register";
 import SplashContainer from "../splash/splash";
 import RestaurantsContainer from "../restaurants/restaurants";
@@ -50,41 +48,21 @@ const StyledAppMain = styled.div`
 `
 
 function AppMain(){
-    const [user, setUser] = useState({});
-    let history = useHistory();
-
-    const onLogoutSuccess = (res) => {
-        console.log(res);
-        setUser({})
-        history.push("/")
-    }
-
-    const onFailure = (res) => {
-        console.log(res);
-    }
-
-    const { signOut } = useGoogleLogout({
-        onFailure,
-        clientId: GOOGLE_CLIENT_ID,
-        onLogoutSuccess
-    })
-    
-
     const logoClicked = () => console.log("SE HIZO CLICK EN EL LOGO");
     
     return (
     <StyledAppMain>
-        <AppHeader  user={user} onLogoClick={logoClicked} showLogo={true} onLogoff={signOut} />
+        <AppHeader onLogoClick={logoClicked} showLogo={true} />
         <div className="crt-content">
             <Switch>
                 <Route path="/restaurants">
                     <RestaurantsContainer />
                 </Route>
                 <Route path="/register">
-                    <RegisterContainer user={user} />
+                    <RegisterContainer  />
                 </Route>
                 <Route path="/">
-                    <SplashContainer onUserChanged={setUser} />        
+                    <SplashContainer />        
                 </Route>
             </Switch>
         </div>

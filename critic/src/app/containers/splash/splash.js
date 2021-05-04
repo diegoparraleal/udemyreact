@@ -1,22 +1,24 @@
 import { Button, Typography } from '@material-ui/core';
 import { GOOGLE_CLIENT_ID } from 'env';
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import homeImage from '../../images/home-image.jpg'
 import { useGoogleLogin } from "react-google-login";
 import { useHistory } from 'react-router';
 import { apiService } from 'app/services/apiService';
+import { CriticDispatchers, CriticStore } from 'app/store/store';
 
 const StyledSplashContainer = styled.div`
   
 `;
 
-function SplashContainer({onUserChanged}) {
+function SplashContainer() {
+    const {state, dispatch} = useContext(CriticStore)
     let history = useHistory();
 
     const onSuccess = (res) => {
         console.log(res);
-        onUserChanged(res.profileObj)
+        dispatch(CriticDispatchers.login(res.profileObj))
         checkIfUserExists(res.profileObj.email)
     }
 
@@ -32,7 +34,10 @@ function SplashContainer({onUserChanged}) {
 
     const checkIfUserExists = (email) => {
         apiService.getAppUserByEmail(email)
-                  .then(() => history.push("/restaurants"))
+                  .then((appUser) => {
+                      dispatch(CriticDispatchers.setAppUser(appUser))
+                      history.push("/restaurants")
+                  })
                   .catch(() => history.push("/register"))
     }
 

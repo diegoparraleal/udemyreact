@@ -2,8 +2,9 @@ import { Card, CardActions, CardContent, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import userEvent from '@testing-library/user-event';
 import { apiService, ROLES } from 'app/services/apiService';
+import { CriticDispatchers, CriticStore } from 'app/store/store';
 import { CRITIC_PALETTE } from 'app/themes/theme';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import clientImage from "../../images/restaurantClient.jpg"
@@ -28,16 +29,22 @@ const StyledRegisterContainer = styled.div`
 `;
 
 
-function RegisterContainer({user}) {
+function RegisterContainer() {
+    const {state, dispatch} = useContext(CriticStore)
+    const {googleUser} = state
     let history = useHistory();
 
     const registerAppUser = (role) => {
-        apiService.createAppUser({
-            name: user.name,
-            email: user.email,
-            image: user.imageUrl,
+        const appUser = {
+            name: googleUser.name,
+            email: googleUser.email,
+            image: googleUser.imageUrl,
             role: role
-        }).then( () => history.push("/restaurants"))
+        }
+        apiService.createAppUser(appUser).then( () => {
+            dispatch(CriticDispatchers.setAppUser(appUser))
+            history.push("/restaurants")
+        })
     } 
 
     return (

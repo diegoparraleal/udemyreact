@@ -1,11 +1,12 @@
 import { AppBar, Avatar, IconButton, Toolbar, Typography } from '@material-ui/core';
-import React from 'react';
+import React, { useContext } from 'react';
 import styled  from 'styled-components'
 import logo from '../../images/logo.png'
 import RestaurantIcon from '@material-ui/icons/Restaurant';
 import PeopleIcon from '@material-ui/icons/People';
 import { CRITIC_PALETTE } from 'app/themes/theme';
 import AppUser from './app.user';
+import { CriticStore } from 'app/store/store';
 
 const StyledAppHeader = styled.div`
     width: 100%;
@@ -52,7 +53,9 @@ const StyledAppHeader = styled.div`
     }
 `
 
-function AppHeader({ user, showLogo, onLogoClick, onLogoff}) {
+function AppHeader({ showLogo, onLogoClick}) {
+    const {state} = useContext(CriticStore)
+    const {googleUser} =state
 
     const internalClick = () => {
         console.log("SE HIZO CLICK INTERNAMENTE EN APP HEADER")
@@ -78,13 +81,13 @@ function AppHeader({ user, showLogo, onLogoClick, onLogoff}) {
                           </IconButton>
                       </li>
                     </ul>
-                    { user &&
+                    { googleUser &&
                         <> 
                             <div className="crt-user">
-                                <Typography variant="h4">{user.name}</Typography>
-                                <Typography variant="h5">{user.email}</Typography>
+                                <Typography variant="h4">{googleUser.name}</Typography>
+                                <Typography variant="h5">{googleUser.email}</Typography>
                             </div>
-                            <AppUser user={user} onLogoff={onLogoff} />
+                            <AppUser />
                         </>
                     }
                 </Toolbar>
