@@ -38,7 +38,7 @@ const StyledAppMain = styled.div`
             width: 100%;
         }
 
-        button{
+        > button{
             margin: 32px 64px;
             padding: 8px 16px;
             color: white;

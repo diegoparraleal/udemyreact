@@ -17,5 +17,10 @@ export const apiService = {
 
     createAppUser(appUser){
         return axios.post(`${SERVER_URL}/users/`, appUser)
-    }
+    },
+
+    getRestaurants(filter){
+        return axios.get(`${SERVER_URL}/restaurants`, {params: filter})
+                    .then( response => response.data )
+    },
 }
