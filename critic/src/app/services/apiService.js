@@ -33,4 +33,8 @@ export const apiService = {
         return axios.get(`${SERVER_URL}/restaurants/${restaurantId}/reviews`, {params : {page} })
                     .then( response => response.data )
     },
+
+    createReview(restaurantId, review){
+        return axios.post(`${SERVER_URL}/restaurants/${restaurantId}/reviews`, review)
+    },
 }

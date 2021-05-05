@@ -19,14 +19,15 @@ const StyledRestaurantDetailContainer = styled.div`
 function RestaurantDetailContainer() {
     const {id} = useParams()
     const [page, setPage] = useState(0)
+    const [fetchFlag, setFetchFlag] = useState(0)
     const [addingReview, setAddingReview] = useState(0)
     const {state, dispatch} = useContext(CriticStore)
-    const {restaurantWithDetails, reviewsHaveMoreResults} = state
+    const {restaurantWithDetails, reviewsHaveMoreResults, appUser} = state
 
     useEffect( () => {
         apiService.getRestaurant(id)
                   .then( (restaurantWithDetails) => dispatch(CriticDispatchers.setRestaurant(restaurantWithDetails)))
-    }, [id])
+    }, [id, fetchFlag])
 
     if (restaurantWithDetails === null) return (<>...</>)
     const {restaurant, bestReview, worstReview, reviews} = restaurantWithDetails
@@ -39,13 +40,18 @@ function RestaurantDetailContainer() {
 
     const addReview = () => setAddingReview(true)
     const cancelReview = () => setAddingReview(false)
+    const performAddReview = (newReview) => {
+        newReview.user = appUser.id
+        apiService.createReview(restaurant.id, newReview)
+                  .then( () => setFetchFlag(fetchFlag + 1))
+    }
 
 
     return (
         <StyledRestaurantDetailContainer>
             <RestaurantCard restaurant={restaurant} showReviews={false}/>
             {addingReview 
-                ? <ReviewCardEditable onCancel={cancelReview} />
+                ? <ReviewCardEditable onCancel={cancelReview} onAdd={performAddReview}/>
                 : <Button variant="outlined" color="secondary" onClick={addReview}>ADD A REVIEW</Button>
             }
             <Grid container spacing={2}>
