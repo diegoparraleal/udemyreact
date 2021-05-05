@@ -28,4 +28,9 @@ export const apiService = {
         return axios.get(`${SERVER_URL}/restaurants/${id}`)
                     .then( response => response.data )
     },
+
+    getReviews(restaurantId, page){
+        return axios.get(`${SERVER_URL}/restaurants/${restaurantId}/reviews`, {params : {page} })
+                    .then( response => response.data )
+    },
 }

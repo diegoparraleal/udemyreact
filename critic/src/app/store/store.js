@@ -4,6 +4,7 @@ const { useContext, createContext, useReducer } = require("react")
 
 /* CONSTS */
 const RESTAURANTS_PER_PAGE = 5
+const REVIEWS_PER_PAGE = 5
 
 /* INITIAL STATE */
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
     restaurants: [],
     restaurantsHaveMoreResults: false,
     restaurantWithDetails: null,
+    reviewsHaveMoreResults: false,
 }
 
 /* STORE CONTEXT*/
@@ -26,6 +28,7 @@ const ACTIONS = {
     SET_RESTAURANTS: "setrestaurants",
     APPEND_RESTAURANTS: "appendrestaurants",
     SET_RESTAURANT: "setrestaurant",
+    APPEND_REVIEWS: "appendreviews",
 }
 
 /* DISPATCHERS */ 
@@ -36,6 +39,7 @@ const CriticDispatchers = {
     setRestaurants: (restaurants)  => ({type: ACTIONS.SET_RESTAURANTS, payload: restaurants}),
     appendRestaurants: (restaurants)  => ({type: ACTIONS.APPEND_RESTAURANTS, payload: restaurants}),
     setRestaurant: (restaurantWithDetails)  => ({type: ACTIONS.SET_RESTAURANT, payload: restaurantWithDetails}),
+    appendReviews: (reviews)  => ({type: ACTIONS.APPEND_REVIEWS, payload: reviews}),
 }
 
 /* REDUCERS */
@@ -46,7 +50,13 @@ function CriticReducers(state, action) {
         case ACTIONS.SET_APPUSER: return {...state, appUser: action.payload}
         case ACTIONS.SET_RESTAURANTS: return {...state, restaurants: action.payload, restaurantsHaveMoreResults: action.payload.length >= RESTAURANTS_PER_PAGE}
         case ACTIONS.APPEND_RESTAURANTS: return {...state, restaurants: [...state.restaurants, ...action.payload], restaurantsHaveMoreResults: action.payload.length >= RESTAURANTS_PER_PAGE}
-        case ACTIONS.SET_RESTAURANT: return {...state, restaurantWithDetails: action.payload}
+        case ACTIONS.SET_RESTAURANT: return {...state, restaurantWithDetails: action.payload, reviewsHaveMoreResults: action.payload.reviews.length >= REVIEWS_PER_PAGE}
+        case ACTIONS.APPEND_REVIEWS: return {...state, 
+                                                restaurantWithDetails: {...state.restaurantWithDetails, 
+                                                                           reviews: [...state.restaurantWithDetails.reviews, ...action.payload]
+                                                                        },
+                                                reviewsHaveMoreResults: action.payload.length >= REVIEWS_PER_PAGE
+                                            }
         default: throw Error("Unknown action")
     }
 }

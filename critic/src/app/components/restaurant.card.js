@@ -8,12 +8,7 @@ const StyledRestaurantCard = styled.div`
   min-height: 240px;
   padding: 16px;
   margin: 16px 0;
-  border: 1px solid #eeeeee;
   text-align: left; 
-
-  &:hover{
-    box-shadow: 0 0 2px 2px ${CRITIC_PALETTE.light};
-  }
 
   .crt-restaurant-card-buttons{
     text-align: right;
@@ -25,7 +20,7 @@ const StyledRestaurantCard = styled.div`
 
 function RestaurantCard({restaurant, showReviews = true, onReviewClick = (_) => {} }) {
     return (
-        <StyledRestaurantCard>
+        <StyledRestaurantCard className="crt-border">
             <Grid container spacing={4}>
                 <Grid item xs={4}><img src={restaurant.image} alt="Restaurant"/></Grid>
                 <Grid item xs={8} container direction="column" spacing={2}>
