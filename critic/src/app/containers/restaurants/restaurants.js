@@ -20,7 +20,7 @@ function RestaurantsContainer(props) {
     const history = useHistory()
 
     const loadMore = () => setFilter({...filter, page: filter.page + 1})
-    const goToReviews = (id) => history.push(`restaurants/${id}`)
+    const goToReviews = (id) => history.push(`/restaurants/${id}`)
 
     useEffect( ()=> {
         apiService.getRestaurants(filter)

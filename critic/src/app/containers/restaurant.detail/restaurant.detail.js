@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import ReviewCard from 'app/components/review.card';
+import ReviewCardEditable from 'app/components/review.card.editable';
 
 const StyledRestaurantDetailContainer = styled.div`
   button{
@@ -18,6 +19,7 @@ const StyledRestaurantDetailContainer = styled.div`
 function RestaurantDetailContainer() {
     const {id} = useParams()
     const [page, setPage] = useState(0)
+    const [addingReview, setAddingReview] = useState(0)
     const {state, dispatch} = useContext(CriticStore)
     const {restaurantWithDetails, reviewsHaveMoreResults} = state
 
@@ -35,9 +37,17 @@ function RestaurantDetailContainer() {
                   .then( reviews => dispatch(CriticDispatchers.appendReviews(reviews)))
     }
 
+    const addReview = () => setAddingReview(true)
+    const cancelReview = () => setAddingReview(false)
+
+
     return (
         <StyledRestaurantDetailContainer>
             <RestaurantCard restaurant={restaurant} showReviews={false}/>
+            {addingReview 
+                ? <ReviewCardEditable onCancel={cancelReview} />
+                : <Button variant="outlined" color="secondary" onClick={addReview}>ADD A REVIEW</Button>
+            }
             <Grid container spacing={2}>
                 <Grid item xs={6}>
                     {bestReview && 
