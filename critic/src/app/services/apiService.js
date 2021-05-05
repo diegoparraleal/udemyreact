@@ -23,4 +23,9 @@ export const apiService = {
         return axios.get(`${SERVER_URL}/restaurants`, {params: filter})
                     .then( response => response.data )
     },
+
+    getRestaurant(id){
+        return axios.get(`${SERVER_URL}/restaurants/${id}`)
+                    .then( response => response.data )
+    },
 }

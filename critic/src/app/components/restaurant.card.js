@@ -23,7 +23,7 @@ const StyledRestaurantCard = styled.div`
 `;
 
 
-function RestaurantCard({restaurant}) {
+function RestaurantCard({restaurant, showReviews = true, onReviewClick = (_) => {} }) {
     return (
         <StyledRestaurantCard>
             <Grid container spacing={4}>
@@ -45,7 +45,9 @@ function RestaurantCard({restaurant}) {
                 </Grid>
             </Grid>
             <div className="crt-restaurant-card-buttons">
-                <Button variant="outlined">REVIEWS</Button>
+                {showReviews && 
+                    <Button variant="outlined" onClick={() => onReviewClick(restaurant.id)}>REVIEWS</Button>
+                }
             </div>
         </StyledRestaurantCard>
     );

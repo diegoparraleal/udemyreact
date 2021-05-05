@@ -10,7 +10,8 @@ const initialState = {
     googleUser: null,
     appUser: null,
     restaurants: [],
-    restaurantsHaveMoreResults: false    
+    restaurantsHaveMoreResults: false,
+    restaurantWithDetails: null,
 }
 
 /* STORE CONTEXT*/
@@ -24,6 +25,7 @@ const ACTIONS = {
     SET_APPUSER: "setappuser" ,
     SET_RESTAURANTS: "setrestaurants",
     APPEND_RESTAURANTS: "appendrestaurants",
+    SET_RESTAURANT: "setrestaurant",
 }
 
 /* DISPATCHERS */ 
@@ -33,6 +35,7 @@ const CriticDispatchers = {
     setAppUser: (appUser)  => ({type: ACTIONS.SET_APPUSER, payload: appUser}),
     setRestaurants: (restaurants)  => ({type: ACTIONS.SET_RESTAURANTS, payload: restaurants}),
     appendRestaurants: (restaurants)  => ({type: ACTIONS.APPEND_RESTAURANTS, payload: restaurants}),
+    setRestaurant: (restaurantWithDetails)  => ({type: ACTIONS.SET_RESTAURANT, payload: restaurantWithDetails}),
 }
 
 /* REDUCERS */
@@ -43,6 +46,7 @@ function CriticReducers(state, action) {
         case ACTIONS.SET_APPUSER: return {...state, appUser: action.payload}
         case ACTIONS.SET_RESTAURANTS: return {...state, restaurants: action.payload, restaurantsHaveMoreResults: action.payload.length >= RESTAURANTS_PER_PAGE}
         case ACTIONS.APPEND_RESTAURANTS: return {...state, restaurants: [...state.restaurants, ...action.payload], restaurantsHaveMoreResults: action.payload.length >= RESTAURANTS_PER_PAGE}
+        case ACTIONS.SET_RESTAURANT: return {...state, restaurantWithDetails: action.payload}
         default: throw Error("Unknown action")
     }
 }
