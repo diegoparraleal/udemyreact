@@ -7,6 +7,7 @@ import RegisterContainer from "../register/register";
 import SplashContainer from "../splash/splash";
 import RestaurantsContainer from "../restaurants/restaurants";
 import RestaurantDetailContainer from "../restaurant.detail/restaurant.detail";
+import useCriticGoogleLogin from "app/hooks/useCriticGoogleLogin";
 
 const StyledAppMain = styled.div`
     width: 1024px;
@@ -49,6 +50,7 @@ const StyledAppMain = styled.div`
 `
 
 function AppMain(){
+    useCriticGoogleLogin({})
     const logoClicked = () => console.log("SE HIZO CLICK EN EL LOGO");
     
     return (

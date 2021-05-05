@@ -7,39 +7,18 @@ import { useGoogleLogin } from "react-google-login";
 import { useHistory } from 'react-router';
 import { apiService } from 'app/services/apiService';
 import { CriticDispatchers, CriticStore } from 'app/store/store';
+import useCriticGoogleLogin from 'app/hooks/useCriticGoogleLogin';
 
 const StyledSplashContainer = styled.div`
   
 `;
 
 function SplashContainer() {
-    const {state, dispatch} = useContext(CriticStore)
     let history = useHistory();
-
-    const onSuccess = (res) => {
-        console.log(res);
-        dispatch(CriticDispatchers.login(res.profileObj))
-        checkIfUserExists(res.profileObj.email)
-    }
-
-    const onFailure = (res) => {
-        console.log(res);
-    }
-
-    const { signIn } = useGoogleLogin({
-        onSuccess,
-        clientId: GOOGLE_CLIENT_ID,
-        onFailure
+    const {signIn} = useCriticGoogleLogin({
+        onUserFound: () => history.push("/restaurants"),
+        onUserNotFound: () => history.push("/register"),
     })
-
-    const checkIfUserExists = (email) => {
-        apiService.getAppUserByEmail(email)
-                  .then((appUser) => {
-                      dispatch(CriticDispatchers.setAppUser(appUser))
-                      history.push("/restaurants")
-                  })
-                  .catch(() => history.push("/register"))
-    }
 
     return (
         <StyledSplashContainer>

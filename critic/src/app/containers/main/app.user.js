@@ -1,4 +1,5 @@
 import { Avatar, Menu, MenuItem } from '@material-ui/core';
+import useCriticGoogleLogin from 'app/hooks/useCriticGoogleLogin';
 import { CriticDispatchers, CriticStore } from 'app/store/store';
 import { GOOGLE_CLIENT_ID } from 'env';
 import React, { useContext } from 'react';
@@ -11,10 +12,13 @@ const StyledAppUser = styled.div`
 `
 
 function AppUser() {
-    const {state, dispatch} = useContext(CriticStore)
+    let history = useHistory();
+    const {signOut} = useCriticGoogleLogin({
+        onLogout: () => history.push("/")
+    })
+    const {state} = useContext(CriticStore)
     const [anchorEl, setAnchorEl] = React.useState(null);
     const {googleUser} = state
-    let history = useHistory();
     
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -28,22 +32,6 @@ function AppUser() {
         handleClose();
         signOut();
     }
-
-    const onLogoutSuccess = (res) => {
-        console.log(res);
-        dispatch(CriticDispatchers.logout())
-        history.push("/")
-    }
-
-    const onFailure = (res) => {
-        console.log(res);
-    }
-
-    const { signOut } = useGoogleLogout({
-        onFailure,
-        clientId: GOOGLE_CLIENT_ID,
-        onLogoutSuccess
-    })
 
     return (
         <StyledAppUser>
