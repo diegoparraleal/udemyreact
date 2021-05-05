@@ -23,9 +23,9 @@ const StyledRestaurantsHeader = styled.div`
 
 function RestaurantsHeader({filter, onFilterChanged}) {
 
-    const filterByName = (event) => { onFilterChanged({...filter, name: event.target.value}) }
-    const cleanFilter = () => {  onFilterChanged({...filter, name: null}) }
-    const filterByRating = (event, value) => { onFilterChanged({...filter, rating: value}) }
+    const filterByName = (event) => { onFilterChanged({...filter, name: event.target.value, page: 0}) }
+    const cleanFilter = () => {  onFilterChanged({...filter, name: "", page: 0}) }
+    const filterByRating = (event, value) => { onFilterChanged({...filter, rating: value, page: 0}) }
 
     return (
         <StyledRestaurantsHeader>

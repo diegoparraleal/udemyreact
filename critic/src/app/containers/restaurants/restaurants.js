@@ -1,3 +1,4 @@
+import { Button } from '@material-ui/core';
 import RestaurantCard from 'app/components/restaurant.card';
 import { apiService } from 'app/services/apiService';
 import { CriticDispatchers, CriticStore } from 'app/store/store';
@@ -5,27 +6,39 @@ import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import RestaurantsHeader from './restaurants.header';
 
-const StyledRstaurantsContainer = styled.div`
-  
+const StyledRestaurantsContainer = styled.div`
+  button{
+      margin: 16px 0;
+  }
 `;
 
 function RestaurantsContainer(props) {
-    const [filter, setFilter] = useState({name: null, rating: 0, page: 0})
+    const [filter, setFilter] = useState({name: "", rating: 0, page: 0})
     const {state, dispatch} = useContext(CriticStore);
-    const {restaurants} = state;
+    const {restaurants, restaurantsHaveMoreResults} = state;
+
+    const loadMore = () => setFilter({...filter, page: filter.page + 1})
 
     useEffect( ()=> {
         apiService.getRestaurants(filter)
-                  .then( restaurants => dispatch(CriticDispatchers.setRestaurants(restaurants)))
+                  .then( restaurants => {
+                     if (filter.page > 0) 
+                        dispatch(CriticDispatchers.appendRestaurants(restaurants))
+                     else
+                        dispatch(CriticDispatchers.setRestaurants(restaurants))
+                  })
     }, [filter])
 
     return (
-        <StyledRstaurantsContainer>
+        <StyledRestaurantsContainer>
             <RestaurantsHeader filter={filter} onFilterChanged={setFilter} />
             {restaurants.map( restaurant => (
                 <RestaurantCard key={restaurant.id} restaurant={restaurant} />
             ))}
-        </StyledRstaurantsContainer>
+            {restaurantsHaveMoreResults &&
+                <Button variant="outlined" color="secondary" onClick={loadMore}>LOAD MORE</Button>
+            }
+        </StyledRestaurantsContainer>
     );
 }
 
