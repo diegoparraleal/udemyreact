@@ -41,6 +41,7 @@ function RestaurantDetailContainer() {
     const addReview = () => setAddingReview(true)
     const cancelReview = () => setAddingReview(false)
     const performAddReview = (newReview) => {
+        setAddingReview(false)
         newReview.user = appUser.id
         apiService.createReview(restaurant.id, newReview)
                   .then( () => setFetchFlag(fetchFlag + 1))

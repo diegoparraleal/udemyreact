@@ -5,6 +5,10 @@ import styled from 'styled-components';
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import { Rating } from '@material-ui/lab';
 import { useForm, Controller } from "react-hook-form";
+import ErrorMessage from './error.message';
+import RequiredDate from './required.date';
+import RequiredRating from './required.rating';
+import RequiredText from './required.text';
 
 const StyledReviewCardEditable = styled.div`
   .crt-review-editable-rating{
@@ -45,27 +49,14 @@ function ReviewCardEditable({review = defaultReview, onCancel, onAdd}) {
                             <img src={googleUser.imageUrl} alt="googleUser" />
                         </Grid>
                         <Grid item>
-                            <Controller name="date" control={control} defaultValue={review.date}
-                                        rules={{ required: true }}
-                                        render={({ field }) => (<KeyboardDatePicker format="yyyy/MM/dd" value={field.value} onChange={field.onChange} />)}
-                            />
-                            { errors?.date?.type === "required" && (<span>Date is required</span>)}
+                            <RequiredDate name="date" errors={errors} control={control} defaultValue={review.date} validationMessage="Date is required" />
                         </Grid>
                         <Grid item className="crt-review-editable-rating">
-                            <Controller name="rating" control={control} defaultValue={review.rating}
-                                        rules={{ min: 0.5 }}
-                                        render={({ field }) => (<Rating name="rating" size="large" precision={0.5} {...field} />)}
-                            />
-                            { errors?.rating?.type === "min" && (<span>Rating is required</span>)}
+                            <RequiredRating name="rating" errors={errors} control={control} defaultValue={review.rating} validationMessage="Rating is required" />
                         </Grid>
                     </Grid>
                     <Grid item>
-                        <Controller name="comment" control={control} defaultValue={review.comment}
-                                    rules={{ required: true }}
-                                    render={({ field }) => (<TextField {...field} fullWidth multiline label="Please tell us your experience" /> )}
-                        />
-                        { errors?.comment?.type === "required" && (<span>Comment is required</span>)}
-                    
+                        <RequiredText name="comment" errors={errors} control={control} defaultValue={review.comment} validationMessage="Comment is required" />
                     </Grid>
                     <Grid item className="crt-review-editable-buttons">
                         <Button color="secondary" variant="outlined" onClick={onCancel}>CANCEL</Button>
