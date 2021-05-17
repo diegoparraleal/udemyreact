@@ -27,7 +27,7 @@ function RestaurantDetailContainer() {
     useEffect( () => {
         apiService.getRestaurant(id)
                   .then( (restaurantWithDetails) => dispatch(CriticDispatchers.setRestaurant(restaurantWithDetails)))
-    }, [id, fetchFlag])
+    }, [id, fetchFlag, dispatch])
 
     if (restaurantWithDetails === null) return (<>...</>)
     const {restaurant, bestReview, worstReview, reviews} = restaurantWithDetails

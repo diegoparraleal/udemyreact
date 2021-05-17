@@ -1,11 +1,8 @@
-import { Button, Grid, TextField } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import { CriticStore } from 'app/store/store';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { KeyboardDatePicker } from "@material-ui/pickers";
-import { Rating } from '@material-ui/lab';
-import { useForm, Controller } from "react-hook-form";
-import ErrorMessage from './error.message';
+import { useForm } from "react-hook-form";
 import RequiredDate from './required.date';
 import RequiredRating from './required.rating';
 import RequiredText from './required.text';
@@ -32,7 +29,7 @@ const defaultReview = {
 
 function ReviewCardEditable({review = defaultReview, onCancel, onAdd}) {
     const { handleSubmit, formState: { errors }, control } = useForm();
-    const {state, dispatch} = useContext(CriticStore)
+    const {state} = useContext(CriticStore)
     const {googleUser} = state
 
     const onSubmit = (data) => {

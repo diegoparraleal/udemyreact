@@ -1,9 +1,7 @@
 import { Avatar, Menu, MenuItem } from '@material-ui/core';
 import useCriticGoogleLogin from 'app/hooks/useCriticGoogleLogin';
-import { CriticDispatchers, CriticStore } from 'app/store/store';
-import { GOOGLE_CLIENT_ID } from 'env';
+import { CriticStore } from 'app/store/store';
 import React, { useContext } from 'react';
-import { useGoogleLogout } from 'react-google-login';
 import { useHistory } from 'react-router-dom';
 import styled  from 'styled-components'
 

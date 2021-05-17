@@ -1,6 +1,5 @@
 import { Card, CardActions, CardContent, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import userEvent from '@testing-library/user-event';
 import { apiService, ROLES } from 'app/services/apiService';
 import { CriticDispatchers, CriticStore } from 'app/store/store';
 import { CRITIC_PALETTE } from 'app/themes/theme';

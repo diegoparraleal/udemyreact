@@ -13,7 +13,7 @@ const StyledRestaurantsContainer = styled.div`
   }
 `;
 
-function RestaurantsContainer(props) {
+function RestaurantsContainer() {
     const [filter, setFilter] = useState({name: "", rating: 0, page: 0})
     const {state, dispatch} = useContext(CriticStore);
     const {restaurants, restaurantsHaveMoreResults} = state;
@@ -30,7 +30,7 @@ function RestaurantsContainer(props) {
                      else
                         dispatch(CriticDispatchers.setRestaurants(restaurants))
                   })
-    }, [filter])
+    }, [filter, dispatch])
 
     return (
         <StyledRestaurantsContainer>
