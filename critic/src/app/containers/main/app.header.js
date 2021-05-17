@@ -1,4 +1,4 @@
-import { AppBar, Avatar, IconButton, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
 import React, { useContext } from 'react';
 import styled  from 'styled-components'
 import logo from '../../images/logo.png'
@@ -55,7 +55,7 @@ const StyledAppHeader = styled.div`
 
 function AppHeader({ showLogo, onLogoClick}) {
     const {state} = useContext(CriticStore)
-    const {googleUser} =state
+    const {googleUser} = state
 
     const internalClick = () => {
         console.log("SE HIZO CLICK INTERNAMENTE EN APP HEADER")

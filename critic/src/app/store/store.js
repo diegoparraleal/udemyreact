@@ -1,6 +1,6 @@
 import React from "react";
 
-const { useContext, createContext, useReducer } = require("react")
+const { createContext, useReducer } = require("react")
 
 /* CONSTS */
 const RESTAURANTS_PER_PAGE = 5

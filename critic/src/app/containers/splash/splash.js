@@ -1,12 +1,8 @@
 import { Button, Typography } from '@material-ui/core';
-import { GOOGLE_CLIENT_ID } from 'env';
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import homeImage from '../../images/home-image.jpg'
-import { useGoogleLogin } from "react-google-login";
 import { useHistory } from 'react-router';
-import { apiService } from 'app/services/apiService';
-import { CriticDispatchers, CriticStore } from 'app/store/store';
 import useCriticGoogleLogin from 'app/hooks/useCriticGoogleLogin';
 
 const StyledSplashContainer = styled.div`
