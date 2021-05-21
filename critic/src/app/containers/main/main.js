@@ -8,6 +8,7 @@ import SplashContainer from "../splash/splash";
 import RestaurantsContainer from "../restaurants/restaurants";
 import RestaurantDetailContainer from "../restaurant.detail/restaurant.detail";
 import useCriticGoogleLogin from "app/hooks/useCriticGoogleLogin";
+import ReviewsContainer from "../reviews/reviews";
 
 const StyledAppMain = styled.div`
     width: 1024px;
@@ -58,6 +59,9 @@ function AppMain(){
         <AppHeader onLogoClick={logoClicked} showLogo={true} />
         <div className="crt-content">
             <Switch>
+                <Route path="/reviews">
+                    <ReviewsContainer />
+                </Route>
                 <Route path="/restaurants/:id">
                     <RestaurantDetailContainer />
                 </Route>

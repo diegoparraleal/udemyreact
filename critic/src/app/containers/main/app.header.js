@@ -3,10 +3,12 @@ import React, { useContext } from 'react';
 import styled  from 'styled-components'
 import logo from '../../images/logo.png'
 import RestaurantIcon from '@material-ui/icons/Restaurant';
+import RateReviewIcon from '@material-ui/icons/RateReview';
 import PeopleIcon from '@material-ui/icons/People';
 import { CRITIC_PALETTE } from 'app/themes/theme';
 import AppUser from './app.user';
 import { CriticStore } from 'app/store/store';
+import { useHistory } from 'react-router-dom';
 
 const StyledAppHeader = styled.div`
     width: 100%;
@@ -55,13 +57,22 @@ const StyledAppHeader = styled.div`
 
 function AppHeader({ showLogo, onLogoClick}) {
     const {state} = useContext(CriticStore)
-    const {googleUser} = state
+    const {appUser, googleUser} = state
+    const history = useHistory()
+
+    const showRestaurants = appUser?.role === "owner"
+    const showPendingReviews = appUser?.role === "owner"
+    const showUsers = appUser?.role === "admin"
 
     const internalClick = () => {
         console.log("SE HIZO CLICK INTERNAMENTE EN APP HEADER")
         onLogoClick()
     }
 
+    const goToRestaurants = () => history.push("/restaurants")
+    const goToReviews = () => history.push("/reviews")
+    const goToUsers = () => history.push("/users")
+    
     return (
         <StyledAppHeader>
             <AppBar position="relative">
@@ -71,14 +82,24 @@ function AppHeader({ showLogo, onLogoClick}) {
                     }
                     <ul>
                       <li>
-                          <IconButton>
-                              <RestaurantIcon/>
-                              <span>Restaurants</span>
-                          </IconButton>
-                          <IconButton>
-                              <PeopleIcon />
-                              <span>Users</span>
-                          </IconButton>
+                          {showRestaurants &&
+                            <IconButton onClick={goToRestaurants}>
+                                <RestaurantIcon/>
+                                <span>Restaurants</span>
+                            </IconButton>
+                          }
+                          {showPendingReviews &&
+                            <IconButton onClick={goToReviews}>
+                                <RateReviewIcon/>
+                                <span>Pending Reviews</span>
+                            </IconButton>
+                          }
+                          {showUsers &&
+                            <IconButton onClick={goToUsers}>
+                                <PeopleIcon />
+                                <span>Users</span>
+                            </IconButton>
+                          }
                       </li>
                     </ul>
                     { googleUser &&

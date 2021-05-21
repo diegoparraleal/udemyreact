@@ -8,14 +8,24 @@ const StyledRequiredText = styled.div`
   
 `;
 
-function RequiredText({control, name, errors, defaultValue, validationMessage}) {
+function RequiredText({control, name, label, maxLength, errors, defaultValue, validationMessage, pattern = null, patternMessage = ""}) {
+    const rules = { 
+        required: `${label} is required`,
+        pattern: pattern ? { value: pattern, message: patternMessage} : undefined
+    }
+
     return (
         <StyledRequiredText>
             <Controller name={name} control={control} defaultValue={defaultValue}
-                        rules={{ required: true }}
-                        render={({ field }) => (<TextField {...field} fullWidth multiline label="Please tell us your experience" /> )}
+                        rules={rules}
+                        render={({ field }) => (<TextField {...field} fullWidth multiline label={label} inputProps={{ maxLength: {maxLength} }}/> )}
             />
-            <ErrorMessage errors={errors} name={name} type="required">{validationMessage}</ErrorMessage>
+            {errors[name]?.type === "required" && 
+                <ErrorMessage errors={errors} name={name} type="required">{validationMessage}</ErrorMessage>
+            }
+            {errors[name]?.type === "pattern" && 
+                <ErrorMessage errors={errors} name={name} type="pattern">{patternMessage}</ErrorMessage>
+            }
         </StyledRequiredText>
     );
 }

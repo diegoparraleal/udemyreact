@@ -15,4 +15,13 @@ export const GlobalStyles = createGlobalStyle`
         box-shadow: 0 0 2px 2px ${CRITIC_PALETTE.light};
       }
     }
+
+    .crt-dialog-content {
+      width: 640px;
+
+      > div {
+          width: 100%;
+          margin-bottom: 16px;
+      }
+  }
 `

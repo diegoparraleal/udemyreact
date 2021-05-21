@@ -14,6 +14,7 @@ const initialState = {
     restaurantsHaveMoreResults: false,
     restaurantWithDetails: null,
     reviewsHaveMoreResults: false,
+    pendingReviews: [],
 }
 
 /* STORE CONTEXT*/
@@ -29,6 +30,7 @@ const ACTIONS = {
     APPEND_RESTAURANTS: "appendrestaurants",
     SET_RESTAURANT: "setrestaurant",
     APPEND_REVIEWS: "appendreviews",
+    SET_PENDINGREVIEWS: "setpendingreviews",
 }
 
 /* DISPATCHERS */ 
@@ -40,6 +42,7 @@ const CriticDispatchers = {
     appendRestaurants: (restaurants)  => ({type: ACTIONS.APPEND_RESTAURANTS, payload: restaurants}),
     setRestaurant: (restaurantWithDetails)  => ({type: ACTIONS.SET_RESTAURANT, payload: restaurantWithDetails}),
     appendReviews: (reviews)  => ({type: ACTIONS.APPEND_REVIEWS, payload: reviews}),
+    setPendingReviews: (pendingReviews) => ({ type: ACTIONS.SET_PENDINGREVIEWS, payload: pendingReviews}),
 }
 
 /* REDUCERS */
@@ -57,6 +60,7 @@ function CriticReducers(state, action) {
                                                                         },
                                                 reviewsHaveMoreResults: action.payload.length >= REVIEWS_PER_PAGE
                                             }
+        case ACTIONS.SET_PENDINGREVIEWS: return {...state, pendingReviews: action.payload};
         default: throw Error("Unknown action")
     }
 }

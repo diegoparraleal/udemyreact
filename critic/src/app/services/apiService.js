@@ -29,12 +29,33 @@ export const apiService = {
                     .then( response => response.data )
     },
 
+    addRestaurant(restaurant) {
+        return axios.post(`${SERVER_URL}/restaurants`, restaurant);
+    },
+
+    editRestaurant(restaurant) {
+        return axios.put(`${SERVER_URL}/restaurants/${restaurant.id}`, restaurant);
+    },
+
     getReviews(restaurantId, page){
         return axios.get(`${SERVER_URL}/restaurants/${restaurantId}/reviews`, {params : {page} })
+                    .then( response => response.data )
+    },
+
+    getPendingReviews(ownerId){
+        const params = {
+            ownerId: ownerId || null,
+        }
+        return axios.get(`${SERVER_URL}/reviews/pending`, {params})
                     .then( response => response.data )
     },
 
     createReview(restaurantId, review){
         return axios.post(`${SERVER_URL}/restaurants/${restaurantId}/reviews`, review)
     },
+
+    postReply(restaurantId, reviewId, reply){
+        return  axios.post(`${SERVER_URL}/restaurants/${restaurantId}/reviews/${reviewId}/reply`, reply)
+    },
+
 }

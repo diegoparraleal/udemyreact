@@ -23,6 +23,7 @@ function RestaurantDetailContainer() {
     const [addingReview, setAddingReview] = useState(0)
     const {state, dispatch} = useContext(CriticStore)
     const {restaurantWithDetails, reviewsHaveMoreResults, appUser} = state
+    const isOwner = appUser?.role === "owner"
 
     useEffect( () => {
         apiService.getRestaurant(id)
@@ -44,6 +45,11 @@ function RestaurantDetailContainer() {
         setAddingReview(false)
         newReview.user = appUser.id
         apiService.createReview(restaurant.id, newReview)
+                  .then( () => setFetchFlag(fetchFlag + 1))
+    }
+    const postReply = (restaurantId, reviewId, reply) => {
+        reply.user = appUser.id;
+        apiService.postReply(restaurantId, reviewId, reply)
                   .then( () => setFetchFlag(fetchFlag + 1))
     }
 
@@ -74,7 +80,8 @@ function RestaurantDetailContainer() {
                 </Grid>
             </Grid>
             {reviews && reviews.map(review => (
-                 <ReviewCard key={review.id} review={review} />
+                 <ReviewCard key={review.id} review={review} canReply={isOwner} 
+                             onReply={(reply) => postReply(restaurant.id, review.id, reply) } />
             ))}
             {reviewsHaveMoreResults &&
                 <Button variant="outlined" color="secondary" onClick={loadMore}>LOAD MORE</Button>

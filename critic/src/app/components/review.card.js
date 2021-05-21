@@ -2,6 +2,7 @@ import { Grid, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import React from 'react';
 import styled from 'styled-components';
+import ReplyCardEditable from './reply.card.editable';
 
 const StyledReviewCard = styled.div`
   text-align: left;
@@ -31,7 +32,7 @@ const StyledReviewCard = styled.div`
     color: #888888;
   }
 `;
-function ReviewCard({review}) {
+function ReviewCard({review, canReply = false, onReply = ()=> {}}) {
 
     const formatDate = (date) => {
         if (date === null) return ""
@@ -65,6 +66,9 @@ function ReviewCard({review}) {
                             <Typography variant="body2">{review.reply.comment}</Typography>
                         </Grid>
                     </Grid> 
+               }
+               {canReply && !review.reply && 
+                    <ReplyCardEditable onReply={onReply}/>
                }
                </Grid>
         </StyledReviewCard>

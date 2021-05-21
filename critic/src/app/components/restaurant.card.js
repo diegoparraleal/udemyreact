@@ -13,11 +13,16 @@ const StyledRestaurantCard = styled.div`
     text-align: right;
     padding-right: 16px;
     margin: 16px 0;
+
+    button{
+        margin-left: 16px;
+    }
   }
 `;
 
 
-function RestaurantCard({restaurant, showReviews = true, onReviewClick = (_) => {} }) {
+function RestaurantCard({restaurant, showReviews = true, showEdit = false,
+                         onReviewClick = (_) => {}, onEditClick = (_) => {} }) {
     return (
         <StyledRestaurantCard className="crt-border">
             <Grid container spacing={4}>
@@ -39,6 +44,9 @@ function RestaurantCard({restaurant, showReviews = true, onReviewClick = (_) => 
                 </Grid>
             </Grid>
             <div className="crt-restaurant-card-buttons">
+                {showEdit && 
+                    <Button variant="outlined" onClick={() => onEditClick(restaurant)}>EDIT</Button>
+                }
                 {showReviews && 
                     <Button variant="outlined" onClick={() => onReviewClick(restaurant.id)}>REVIEWS</Button>
                 }
