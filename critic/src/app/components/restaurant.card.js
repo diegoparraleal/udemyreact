@@ -9,6 +9,10 @@ const StyledRestaurantCard = styled.div`
   margin: 16px 0;
   text-align: left; 
 
+  img {
+      width: 100%;
+  }
+
   .crt-restaurant-card-buttons{
     text-align: right;
     padding-right: 16px;
@@ -21,8 +25,8 @@ const StyledRestaurantCard = styled.div`
 `;
 
 
-function RestaurantCard({restaurant, showReviews = true, showEdit = false,
-                         onReviewClick = (_) => {}, onEditClick = (_) => {} }) {
+function RestaurantCard({restaurant, showReviews = true, showEdit = false, showDelete = false, 
+                         onReviewClick = (_) => {}, onEditClick = (_) => {}, onDeleteClick = (_) => {} }) {
     return (
         <StyledRestaurantCard className="crt-border">
             <Grid container spacing={4}>
@@ -46,6 +50,9 @@ function RestaurantCard({restaurant, showReviews = true, showEdit = false,
             <div className="crt-restaurant-card-buttons">
                 {showEdit && 
                     <Button variant="outlined" onClick={() => onEditClick(restaurant)}>EDIT</Button>
+                }
+                {showDelete && 
+                    <Button variant="outlined" onClick={() => onDeleteClick(restaurant)}>DELETE</Button>
                 }
                 {showReviews && 
                     <Button variant="outlined" onClick={() => onReviewClick(restaurant.id)}>REVIEWS</Button>

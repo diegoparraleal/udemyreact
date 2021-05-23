@@ -1,7 +1,8 @@
 import { Button } from '@material-ui/core';
+import ConfirmDialog from 'app/components/confirm.dialog';
 import RestaurantCard from 'app/components/restaurant.card';
 import RestaurantEditable from 'app/components/restaurant.editable';
-import { apiService } from 'app/services/apiService';
+import { apiService, ROLES } from 'app/services/apiService';
 import { CriticDispatchers, CriticStore } from 'app/store/store';
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
@@ -18,7 +19,8 @@ const StyledRestaurantsContainer = styled.div`
 function RestaurantsContainer() {
     const {state, dispatch} = useContext(CriticStore);
     const {appUser, restaurants, restaurantsHaveMoreResults} = state;
-    const isOwner = appUser?.role === "owner"
+    const isOwner = appUser?.role === ROLES.OWNER
+    const isAdmin = appUser?.role === ROLES.ADMIN
     const [filter, setFilter] = useState({name: "", rating: 0, page: 0, ownerId: isOwner ? appUser.id : undefined})
     const history = useHistory()
 
@@ -55,7 +57,19 @@ function RestaurantsContainer() {
     const performEditRestaurant = (restaurant) => {
         apiService.editRestaurant(restaurant)
                   .then(() => {
-                      setEditingRestaurant(false)
+                      setEditingRestaurant(null)
+                      setFilter({...filter, page: 0})
+                  })
+    }
+
+    // Delete restaurant logic
+    const [deletingRestaurant, setDeletingRestaurant] = useState(null);
+    const deleteRestaurant = (restaurant) => setDeletingRestaurant(restaurant)
+    const cancelRestaurantDeletion = () => setDeletingRestaurant(null)
+    const performDeleteRestaurant = () => {
+        apiService.deleteRestaurant(deletingRestaurant.id)
+                  .then(() => {
+                    setDeletingRestaurant(null)
                       setFilter({...filter, page: 0})
                   })
     }
@@ -70,13 +84,17 @@ function RestaurantsContainer() {
                 <RestaurantEditable title="Edit Restaurant" confirmButton="Edit" restaurant={editingRestaurant}
                                     onCancel={cancelRestaurantEdition} onConfirm={performEditRestaurant} />
             }
+            {deletingRestaurant && 
+               <ConfirmDialog title="Delete Restaurant" message="Are you sure you want to delete this restaurant?" 
+                              onCancel={cancelRestaurantDeletion} onConfirm={() => performDeleteRestaurant()} />
+            }
             {isOwner &&
                 <RestaurantsHeaderOwner onAddRestaurantClick={addRestaurant}/>
             }
             <RestaurantsHeader filter={filter} onFilterChanged={setFilter} />
             {restaurants.map( restaurant => (
-                <RestaurantCard key={restaurant.id} restaurant={restaurant} showEdit={isOwner} 
-                                onReviewClick={goToReviews} onEditClick={editRestaurant}/>
+                <RestaurantCard key={restaurant.id} restaurant={restaurant} showEdit={isOwner || isAdmin} showDelete={isAdmin}
+                                onReviewClick={goToReviews} onEditClick={editRestaurant} onDeleteClick={deleteRestaurant}/>
             ))}
             {restaurantsHaveMoreResults &&
                 <Button variant="outlined" color="secondary" onClick={loadMore}>LOAD MORE</Button>

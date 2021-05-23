@@ -11,7 +11,7 @@ const StyledRequiredRating = styled.div`
 function RequiredRating({control, name, errors, defaultValue, validationMessage}) {
     return (
         <StyledRequiredRating>
-            <Controller name={name} control={control} defaultValue={defaultValue}
+            <Controller name={name} control={control} defaultValue={Number(defaultValue)}
                         rules={{ min: 0.5 }}
                         render={({ field }) => (<Rating name={name} size="large" precision={0.5} {...field} />)}
             />

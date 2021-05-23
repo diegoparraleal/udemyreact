@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@material-ui/core';
+import { Button, Grid, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import React from 'react';
 import styled from 'styled-components';
@@ -31,8 +31,16 @@ const StyledReviewCard = styled.div`
   p { 
     color: #888888;
   }
+
+  .crt-reply-card-buttons{
+      text-align: right;
+      button {
+          margin-left: 8px;
+      }
+  }
 `;
-function ReviewCard({review, canReply = false, onReply = ()=> {}}) {
+function ReviewCard({review, canReply = false, canEdit = false, canDelete = false,
+                     onReply = ()=> {}, onEdit = (_)=> {}, onDelete = (_)=> {}}) {
 
     const formatDate = (date) => {
         if (date === null) return ""
@@ -50,7 +58,7 @@ function ReviewCard({review, canReply = false, onReply = ()=> {}}) {
                         <Typography variant="body2" className="crt-review-date">{formatDate(review.date)}</Typography>
                    </Grid>
                    <Grid item className="crt-review-rating">
-                        <Rating name="reviewRating" size="large" value={review.rating} />
+                        <Rating name="reviewRating" size="large" value={review.rating} precision={0.5} />
                    </Grid>
                 </Grid> 
                <Grid item container>
@@ -70,7 +78,15 @@ function ReviewCard({review, canReply = false, onReply = ()=> {}}) {
                {canReply && !review.reply && 
                     <ReplyCardEditable onReply={onReply}/>
                }
-               </Grid>
+               <Grid item className="crt-reply-card-buttons">
+                    {canEdit && 
+                        <Button variant="outlined" color="secondary" onClick={() => onEdit(review)}>EDIT</Button>
+                    }
+                    {canDelete && 
+                        <Button variant="outlined" color="secondary" onClick={() => onDelete(review)}>DELETE</Button>
+                    }
+               </Grid> 
+            </Grid>
         </StyledReviewCard>
     );
 }

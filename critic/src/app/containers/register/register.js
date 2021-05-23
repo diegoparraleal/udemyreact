@@ -12,6 +12,12 @@ import ownerImage from "../../images/restaurantOwner.jpg"
 const StyledRegisterContainer = styled.div`
   h3{
     margin-top: 128px !important;
+    font-size: 24px;
+    text-align: center;
+    padding: 8px 0px;
+    margin: 32px 64px;
+    font-weight: 300;
+    display: block;
   }
 
   .crt-register-card{
@@ -25,6 +31,11 @@ const StyledRegisterContainer = styled.div`
           width: 100%;
       }
   }
+
+  img {
+    width: 100%;
+  }
+
 `;
 
 

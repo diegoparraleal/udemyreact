@@ -8,7 +8,7 @@ const StyledRequiredText = styled.div`
   
 `;
 
-function RequiredText({control, name, label, maxLength, errors, defaultValue, validationMessage, pattern = null, patternMessage = ""}) {
+function RequiredText({control, name, label = "", maxLength, errors, defaultValue, validationMessage, pattern = null, patternMessage = ""}) {
     const rules = { 
         required: `${label} is required`,
         pattern: pattern ? { value: pattern, message: patternMessage} : undefined

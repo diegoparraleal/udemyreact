@@ -60,7 +60,7 @@ function AppHeader({ showLogo, onLogoClick}) {
     const {appUser, googleUser} = state
     const history = useHistory()
 
-    const showRestaurants = appUser?.role === "owner"
+    const showRestaurants = appUser?.role === "owner" || appUser?.role === "admin"
     const showPendingReviews = appUser?.role === "owner"
     const showUsers = appUser?.role === "admin"
 

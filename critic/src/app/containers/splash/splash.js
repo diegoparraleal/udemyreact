@@ -6,7 +6,24 @@ import { useHistory } from 'react-router';
 import useCriticGoogleLogin from 'app/hooks/useCriticGoogleLogin';
 
 const StyledSplashContainer = styled.div`
-  
+    h3 {
+        font-size: 24px;
+        text-align: center;
+        padding: 8px 0px;
+        margin: 32px 64px;
+        font-weight: 300;
+        display: block;
+    }
+
+    > img {
+        width: 100%;
+    }
+
+    > button{
+        margin: 32px 64px;
+        padding: 8px 16px;
+        color: white;
+    }
 `;
 
 function SplashContainer() {

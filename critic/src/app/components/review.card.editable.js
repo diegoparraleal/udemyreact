@@ -19,6 +19,14 @@ const StyledReviewCardEditable = styled.div`
           margin-left: 16px;
       }
   }
+  .crt-review-image-container{
+    height: 64px;
+    overflow: hidden;
+
+    img{
+        width: 64px !important;
+    }
+  }
 `;
 
 const defaultReview = {
@@ -27,14 +35,20 @@ const defaultReview = {
     rating: 0
 }
 
-function ReviewCardEditable({review = defaultReview, onCancel, onAdd}) {
+function ReviewCardEditable({review = defaultReview, editing = false, 
+                             onCancel = () => {}, onAdd = (_) => {}, onEdit = (_) => {}}) {
     const { handleSubmit, formState: { errors }, control } = useForm();
     const {state} = useContext(CriticStore)
     const {googleUser} = state
 
     const onSubmit = (data) => {
         console.log(data)
-        onAdd(data)
+        if (!editing) onAdd(data)
+        else {
+            let newReply = review.reply != null ? {...review.reply, comment: data.replyComment} : null
+            let newReview = {date: data.date, rating: data.rating, comment: data.comment, reply: newReply}
+            onEdit({...review, ...newReview})
+        }
     }
 
     return (
@@ -42,8 +56,8 @@ function ReviewCardEditable({review = defaultReview, onCancel, onAdd}) {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Grid container direction="column" spacing={2}>
                     <Grid item container spacing={2}>
-                        <Grid item>
-                            <img src={googleUser.imageUrl} alt="googleUser" />
+                        <Grid item className="crt-review-image-container">
+                            <img src={editing ? review.userImage : googleUser.imageUrl} alt="googleUser" />
                         </Grid>
                         <Grid item>
                             <RequiredDate name="date" errors={errors} control={control} defaultValue={review.date} validationMessage="Date is required" />
@@ -53,11 +67,23 @@ function ReviewCardEditable({review = defaultReview, onCancel, onAdd}) {
                         </Grid>
                     </Grid>
                     <Grid item>
-                        <RequiredText name="comment" errors={errors} control={control} defaultValue={review.comment} validationMessage="Comment is required" />
+                        <RequiredText name="comment" errors={errors} control={control} defaultValue={review.comment} validationMessage="Comment is required" maxLength={4000} />
                     </Grid>
+                    {review.reply && 
+                        <Grid item container spacing={2}>  
+                            <Grid item className="crt-review-image-container" xs={2}>
+                                <img src={review.reply.userImage} alt="replyUser" />
+                            </Grid>
+                            <Grid item xs={10}>
+                                <RequiredText name="replyComment" errors={errors} control={control} defaultValue={review.reply.comment} 
+                                              validationMessage="Reply is required" maxLength={4000}/>
+                            </Grid>
+                        </Grid>
+                    }
                     <Grid item className="crt-review-editable-buttons">
                         <Button color="secondary" variant="outlined" onClick={onCancel}>CANCEL</Button>
-                        <Button color="secondary" variant="contained" type="submit">ADD</Button>
+                        {editing && <Button color="secondary" variant="contained" type="submit">EDIT</Button>}
+                        {!editing && <Button color="secondary" variant="contained" type="submit">ADD</Button>}
                     </Grid>
                 </Grid>
             </form>
